@@ -1,5 +1,19 @@
 <script setup>
+import { ref } from 'vue'
 import CustomInput from './components/CustomInput.vue'
+
+// Referências para os campos de entrada
+const username = ref('')
+const password = ref('')
+const repassword = ref('')
+
+// Função para criar a conta
+const createAccount = () => {
+  console.log('Username: ', username.value)
+  console.log('Password: ', password.value)
+  console.log('Repassword: ', repassword.value)
+}
+
 </script>
 
 <template>
@@ -12,24 +26,24 @@ import CustomInput from './components/CustomInput.vue'
         <label for="username">
           Username:
         </label>
-        <CustomInput id="username" type="text" placeholder="Enter your username"/>
+        <CustomInput v-model="username" id="username" type="text" placeholder="Enter your username"/>
       </div>
 
       <div class="form-element">
         <label for="password">
           Password:
         </label>
-        <CustomInput id="password" type="password" placeholder="Enter your password"/>
+        <CustomInput v-model="password" id="password" type="password" placeholder="Enter your password"/>
       </div>
 
       <div class="form-element">
         <label for="repassword">
           Repeat the password:
         </label>
-        <CustomInput id="repassword" type="password" placeholder="Repeat the password"/>
+        <CustomInput v-model="repassword" id="repassword" type="password" placeholder="Repeat the password"/>
       </div>
 
-      <button>Register</button>
+      <button @click="createAccount">Register</button>
 
     </div>
   </div>

@@ -4,23 +4,23 @@
       :id="id"
       :type="type"
       :placeholder="placeholder"
-      v-model="inputValue"
+      v-model="internalValue"
       @focus="handleFocus"
       @blur="handleBlur"
     />
     <Close
       class="icon"
-      :class="{ visible: isFocused && inputValue }"
+      :class="{ visible: isFocused && internalValue }"
       @click="clearInput"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, watch } from 'vue';
 import Close from '../components/Close.vue';
 
-// Define props to accept the id
+// Define props to accept the id, type, and placeholder, as well as the modelValue
 const props = defineProps({
   id: {
     type: String,
@@ -36,11 +36,31 @@ const props = defineProps({
     type: String,
     required: false,
     default: ""
+  },
+  modelValue: {
+    type: String,
+    required: false,
+    default: ''
   }
-
 });
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// Emit the value when it changes
+const emit = defineEmits(['update:modelValue']);
+
+// Internal value to bind with the input field
+const internalValue = ref(props.modelValue);
+
+// Watch for changes in modelValue prop to keep internalValue in sync
+watch(() => props.modelValue, (newValue) => {
+  internalValue.value = newValue;
+});
+
+// Watch for changes in internalValue and emit them
+watch(internalValue, (newValue) => {
+  emit('update:modelValue', newValue);
+});
+
+const isFocused = ref(false);
 
 const handleFocus = () => {
   isFocused.value = true;
@@ -51,11 +71,10 @@ const handleBlur = async () => {
   isFocused.value = false;
 };
 
-const isFocused = ref(false);
-const inputValue = ref('');
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const clearInput = () => {
-  inputValue.value = '';
+  internalValue.value = ''; // Clears the input
 };
 </script>
 
