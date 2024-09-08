@@ -1,23 +1,44 @@
 <template>
   <div class="custom-input">
     <input
-      type="password"
-      placeholder="enter your password"
-      v-model="password"
+      :id="id"
+      :type="type"
+      :placeholder="placeholder"
+      v-model="inputValue"
       @focus="handleFocus"
       @blur="handleBlur"
     />
     <Close
       class="icon"
-      :class="{ hide: !isFocused && !password }"
+      :class="{ visible: isFocused && inputValue }"
       @click="clearInput"
     />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 import Close from '../components/Close.vue';
+
+// Define props to accept the id
+const props = defineProps({
+  id: {
+    type: String,
+    required: false,
+    default: ""
+  },
+  type: {
+    type: String,
+    required: false,
+    default: "text"
+  },
+  placeholder: {
+    type: String,
+    required: false,
+    default: ""
+  }
+
+});
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -31,16 +52,16 @@ const handleBlur = async () => {
 };
 
 const isFocused = ref(false);
-const password = ref('');
+const inputValue = ref('');
 
 const clearInput = () => {
-  password.value = '';
+  inputValue.value = '';
 };
 </script>
 
 <style scoped>
-.hide {
-  opacity: 0%;
+.visible {
+  opacity: 100% !important;
 }
 
 .icon {
@@ -49,6 +70,7 @@ const clearInput = () => {
   color: white;
   cursor: pointer;
   margin-right: 8px;
+  opacity: 0%;
 }
 
 .custom-input {
@@ -56,6 +78,7 @@ const clearInput = () => {
   align-items: center;
   border: 1px solid white;
   min-width: 200px;
+  border-radius: 4px;
 }
 
 .custom-input input {

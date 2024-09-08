@@ -1,30 +1,66 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import CustomInput from './components/CustomInput.vue'
 </script>
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <!-- Form -->
+    <div class="form">
+      <h2>Sign Up</h2>
+
+      <div class="form-element">
+        <label for="username">
+          Username:
+        </label>
+        <CustomInput id="username" type="text" placeholder="Enter your username"/>
+      </div>
+
+      <div class="form-element">
+        <label for="password">
+          Password:
+        </label>
+        <CustomInput id="password" type="password" placeholder="Enter your password"/>
+      </div>
+
+      <div class="form-element">
+        <label for="repassword">
+          Repeat the password:
+        </label>
+        <CustomInput id="repassword" type="password" placeholder="Repeat the password"/>
+      </div>
+
+      <button>Register</button>
+
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.form {
+  border: 1px solid white;
+  width: 500px;
+  padding-bottom: 32px;
+  border-radius: 8px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.form-element {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 300px;
+  margin: 16px auto 0 auto;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.form-element {
+  label {
+    text-align: left;
+  }
 }
+
+button {
+  margin-top: 32px;
+  width: 300px;
+}
+
+
 </style>
